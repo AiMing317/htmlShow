@@ -30,6 +30,12 @@
             color: #D4341F;
             font-size: 2.5em;
             margin-bottom: 20px;
+            background: linear-gradient(45deg, #FF4D4D, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            transform-origin: center;
+            animation: bounce 2s infinite;
         }
 
         .greeting {
@@ -123,6 +129,70 @@
         .wishes p:nth-child(3) {
             animation-delay: 1s;
         }
+
+        /* 跳动的文字动画 */
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 旋转动画 */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .decoration span {
+            display: inline-block;
+            margin: 0 5px;
+            animation: bounce 1s infinite;
+        }
+
+        .decoration span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .decoration span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* 音乐控制按钮样式 */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control.playing {
+            animation: spin 5s linear infinite;
+        }
     </style>
 </head>
 
@@ -133,16 +203,27 @@
     <div class="firework"></div>
     <div class="firework"></div>
 
+    <div class="music-control" id="musicControl">🎵</div>
+
     <div class="container">
-        <div class="decoration">🏮 🎊 🧨</div>
-        <h1>新春快乐</h1>
-        <div class="greeting">恭祝您</div>
-        <div class="wishes">
-            <p>福满乾坤 喜气盈门</p>
-            <p>万事如意 阖家欢乐</p>
-            <p>财源广进 吉祥安康</p>
+        <div class="decoration">
+            <span>🏮</span>
+            <span>🎊</span>
+            <span>🧨</span>
         </div>
-        <div class="decoration">🧧 🎋 💮</div>
+        <h1>新春大吉 龙年昌盛</h1>
+        <div class="greeting">祝您</div>
+        <div class="wishes">
+            <p>龙腾虎跃展宏图 🐲</p>
+            <p>事业腾飞创新高 ⭐</p>
+            <p>身体健康精神旺 💪</p>
+            <p>开开心心每一天 😊</p>
+        </div>
+        <div class="decoration">
+            <span>🧧</span>
+            <span>🎋</span>
+            <span>💮</span>
+        </div>
     </div>
 
     <script>
@@ -168,6 +249,58 @@
 
         // 每隔一段时间创建新烟花
         setInterval(createFirework, 800);
+
+        // 添加鼠标悬停音效
+        const wishes = document.querySelectorAll('.wishes p');
+        const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV6urq6urq6urq6urq6urq6urq6urq6urq6v////////////////////////////////8AAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAAAAAAAAAAAASDs90hvAAAAAAAAAAAAAAAAAAAA//MUZAAAAAGkAAAAAAAAA0gAAAAATEFN//MUZAMAAAGkAAAAAAAAA0gAAAAARTMu//MUZAYAAAGkAAAAAAAAA0gAAAAAOTku//MUZAkAAAGkAAAAAAAAA0gAAAAANVVV');
+
+        wishes.forEach(wish => {
+            wish.addEventListener('mouseover', () => {
+                audio.currentTime = 0;
+                audio.play();
+                wish.style.transform = 'scale(1.1)';
+                wish.style.transition = 'transform 0.3s';
+            });
+
+            wish.addEventListener('mouseout', () => {
+                wish.style.transform = 'scale(1)';
+            });
+        });
+
+        // 背景音乐控制
+        const musicControl = document.getElementById('musicControl');
+        const bgMusic = new Audio('music/枫-周杰伦.mp3');
+        bgMusic.loop = true; // 循环播放
+
+        let isPlaying = false;
+
+        // 添加自动播放失败的处理
+        bgMusic.addEventListener('play', () => {
+            isPlaying = true;
+            musicControl.classList.add('playing');
+        });
+
+        bgMusic.addEventListener('pause', () => {
+            isPlaying = false;
+            musicControl.classList.remove('playing');
+        });
+
+        musicControl.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+            } else {
+                bgMusic.play().catch(error => {
+                    console.log("自动播放被阻止，需要用户手动触发");
+                });
+            }
+        });
+
+        // 页面加载完成后尝试自动播放
+        document.addEventListener('DOMContentLoaded', () => {
+            bgMusic.play().catch(error => {
+                console.log("自动播放被阻止，需要用户手动触发");
+            });
+        });
     </script>
 </body>
 
