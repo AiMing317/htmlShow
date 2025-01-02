@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新春贺岁</title>
+    <style>
+        body {
+            background-color: #FFE4E1;
+            font-family: "Microsoft YaHei", sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #D4341F;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .greeting {
+            font-size: 1.5em;
+            color: #8B0000;
+            margin: 20px 0;
+        }
+
+        .decoration {
+            font-size: 2em;
+            color: #FFD700;
+            margin: 15px 0;
+        }
+
+        .wishes {
+            color: #B22222;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        /* 烟花动画样式 */
+        .firework {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+            z-index: 0;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+
+        .firework:nth-child(1) {
+            background: #ff0000;
+            top: 20%;
+            left: 20%;
+        }
+
+        .firework:nth-child(2) {
+            background: #ffd700;
+            top: 30%;
+            right: 20%;
+            animation-delay: 0.3s;
+        }
+
+        .firework:nth-child(3) {
+            background: #ff69b4;
+            top: 15%;
+            left: 50%;
+            animation-delay: 0.7s;
+        }
+
+        .firework:nth-child(4) {
+            background: #00ff00;
+            top: 40%;
+            right: 30%;
+            animation-delay: 1s;
+        }
+
+        /* 添加闪烁动画 */
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .wishes p {
+            animation: twinkle 2s infinite;
+        }
+
+        .wishes p:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .wishes p:nth-child(3) {
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 初始烟花元素 -->
+    <div class="firework"></div>
+    <div class="firework"></div>
+    <div class="firework"></div>
+    <div class="firework"></div>
+
+    <div class="container">
+        <div class="decoration">🏮 🎊 🧨</div>
+        <h1>新春快乐</h1>
+        <div class="greeting">恭祝您</div>
+        <div class="wishes">
+            <p>福满乾坤 喜气盈门</p>
+            <p>万事如意 阖家欢乐</p>c:\Users\locah\Desktop\index.html
+            <p>财源广进 吉祥安康</p>
+        </div>
+        <div class="decoration">🧧 🎋 💮</div>
+    </div>
+
+    <script>
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+
+            // 随机位置
+            firework.style.left = Math.random() * 100 + '%';
+            firework.style.top = Math.random() * 100 + '%';
+
+            // 随机颜色
+            const colors = ['#ff0000', '#ffd700', '#ff69b4', '#00ff00', '#ff4500', '#ff1493', '#ffa500'];
+            firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(firework);
+
+            // 动画结束后删除元素
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+
+        // 每隔一段时间创建新烟花
+        setInterval(createFirework, 800);
+    </script>
+</body>
+
+</html>
